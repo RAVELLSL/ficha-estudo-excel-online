@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha de Estudo — Microsoft Excel Online</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Source+Sans+3:wght@400;600;700&display=swap");
+
+    :root{
+      --bg:#f4f7f5;
+      --surface:#ffffff;
+      --surface-soft:#f7fbf8;
+      --paper:#ffffff;
+      --ink:#16231b;
+      --muted:#5d6f64;
+      --excel:#107C41;
+      --excel-dark:#0b5a30;
+      --excel-soft:#e8f5ee;
+      --line:#d8e4dc;
+      --warn:#fff5d6;
+      --danger:#fdeaea;
+      --info:#eaf2ff;
+      --shadow:0 18px 45px rgba(17, 60, 38, .12);
+      --radius:16px;
+      --topbar-h:70px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(16,124,65,.10), transparent 26%),
+        radial-gradient(circle at 100% 0%, rgba(11,90,48,.08), transparent 22%),
+        var(--bg);
+      color:var(--ink);
+      font-family:"Source Sans 3","Segoe UI",sans-serif;
+      line-height:1.65;
+      overflow:hidden;
+    }
+    a{color:var(--excel-dark);text-decoration:none;font-weight:700}
+    a:hover{text-decoration:underline}
+
+    .topbar{
+      height:var(--topbar-h);
+      position:sticky;
+      top:0;
+      z-index:40;
+      background:rgba(255,253,248,.94);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:1360px;
+      height:100%;
+      margin:0 auto;
+      padding:0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      font-family:"Merriweather",Georgia,serif;
+      font-weight:900;
+      color:var(--excel-dark);
+      letter-spacing:.01em;
+      font-size:1.04rem;
+      white-space:nowrap;
+    }
+    .nav{display:none;gap:8px;overflow-x:auto}
+    .nav a{
+      text-decoration:none;
+      color:#2f3a44;
+      background:var(--surface-soft);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:7px 11px;
+      font-size:.84rem;
+      font-weight:600;
+      white-space:nowrap;
+    }
+    .book-app{
+      max-width:1360px;
+      margin:0 auto;
+      padding:14px 18px 18px;
+      height:calc(100dvh - var(--topbar-h));
+      display:grid;
+      grid-template-columns:300px minmax(0,1fr);
+      gap:16px;
+    }
+    .book-app > *{min-height:0}
+    .sidebar{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+      overflow:auto;
+      scrollbar-gutter:stable both-edges;
+      padding-bottom:26px;
+    }
+    .sidebar h2{
+      font-family:"Merriweather",serif;
+      font-size:1.02rem;
+      margin:0 0 8px;
+      color:#302116;
+    }
+    .sidebar p{margin:0 0 12px;color:#6f6052;font-size:.9rem}
+    .sidebar-nav{display:grid;gap:8px}
+    .sidebar-nav a{
+      text-decoration:none;
+      color:#2f2a24;
+      border:1px solid var(--line);
+      background:var(--surface-soft);
+      border-radius:12px;
+      padding:9px 11px;
+      font-size:.92rem;
+      font-weight:600;
+      transition:.2s ease;
+    }
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active{
+      border-color:rgba(16,124,65,.35);
+      color:var(--excel-dark);
+      transform:translateX(2px);
+      background:#fff;
+    }
+    .viewer{
+      min-width:0;
+      display:grid;
+      grid-template-rows:auto minmax(0,1fr);
+      gap:12px;
+    }
+    .viewer-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      background:linear-gradient(110deg,#0f3d22,#107C41);
+      color:#f2fff7;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      padding:8px 10px;
+      box-shadow:0 10px 22px rgba(11,44,26,.24);
+    }
+    .viewer-status{font-weight:600;font-size:.92rem;letter-spacing:.01em;white-space:nowrap}
+    .viewer-preference{display:inline-flex;align-items:center;gap:7px;color:#f2fff7;font-size:.82rem;white-space:nowrap}
+    .viewer-preference select{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(255,255,255,.1);
+      color:#f2fff7;
+      border-radius:999px;
+      padding:6px 10px;
+      font:inherit;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .viewer-preference select option{color:#203126;background:#fff}
+    .viewer-toolbar button{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(255,255,255,.08);
+      color:#f2fff7;
+      border-radius:999px;
+      padding:8px 12px;
+      font:inherit;
+      cursor:pointer;
+    }
+    .viewer-toolbar button:disabled{opacity:.45;cursor:not-allowed}
+    .viewer-stage{
+      position:relative;
+      border-radius:var(--radius);
+      border:1px solid var(--line);
+      background:rgba(255,252,246,.6);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      min-height:0;
+    }
+    .scale-note{
+      position:absolute;
+      right:12px;
+      bottom:10px;
+      background:rgba(35,26,19,.72);
+      color:#fff;
+      border-radius:999px;
+      padding:4px 8px;
+      font-size:.74rem;
+      z-index:20;
+      display:none;
+    }
+    .viewer-stage.is-scaled .scale-note{display:inline-flex}
+    .book{
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+    .page.cover{
+      min-height:0;
+      border-radius:var(--radius);
+      background:linear-gradient(135deg,#107C41 0%,#0b5a30 54%,#06371f 100%);
+      color:white;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .page.cover > .page-content{
+      min-height:100%;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:32px;
+      align-items:center;
+      padding:46px 46px 70px;
+      position:relative;
+      z-index:1;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.24);
+      padding:9px 14px;
+      border-radius:999px;
+      font-size:.92rem;
+      letter-spacing:.03em;
+      text-transform:uppercase;
+      font-weight:800;
+      color:#ffffff;
+    }
+    .cover h1{
+      margin:26px 0 18px;
+      font-size:clamp(2.3rem,5vw,4.8rem);
+      line-height:.98;
+      letter-spacing:-.05em;
+      color:#ffffff;
+    }
+    .cover p{font-size:1.2rem;max-width:620px;color:#e9fff2}
+    .cover .meta{
+      margin-top:36px;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+    }
+    .meta div{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:18px;
+      padding:14px;
+      min-height:88px;
+    }
+    .meta strong{display:block;font-size:1.03rem;color:#fff}
+    .meta span{font-size:.92rem;color:#d9f7e5}
+    .mock-window{
+      position:relative;
+      z-index:1;
+      background:#fff;
+      color:#1a1a1a;
+      border-radius:22px;
+      box-shadow:0 30px 70px rgba(0,0,0,.28);
+      overflow:hidden;
+      transform:rotate(1deg);
+    }
+    .mock-titlebar{
+      display:flex;align-items:center;gap:8px;
+      padding:12px 16px;background:#f1f5f3;border-bottom:1px solid #dce7e0;
+    }
+    .dot{width:11px;height:11px;border-radius:50%;background:#d0d8d3}
+    .mock-ribbon{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;padding:12px 16px;background:#fff;border-bottom:1px solid #e2ece5}
+    .rib{height:26px;border-radius:8px;background:#e9f4ee;border:1px solid #cfe5d7}
+    .sheet{padding:16px;background:#fbfdfc;overflow:hidden}
+    .grid{display:grid;grid-template-columns:42px repeat(5,1fr);border-top:1px solid #cadbd1;border-left:1px solid #cadbd1;min-width:460px}
+    .cell,.head{height:42px;border-right:1px solid #cadbd1;border-bottom:1px solid #cadbd1;padding:8px;font-size:.82rem;background:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .head{background:#eff6f2;font-weight:800;text-align:center;color:#506357}
+    .cell.green{background:#e6f5ec;font-weight:800;color:#0c6b38}
+    .cell.sum{background:#107C41;color:#fff;font-weight:900}
+    .toolbar-note{font-size:.78rem;color:#65776b;padding:0 16px 16px}
+    .page{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      background:var(--paper);
+      border-radius:var(--radius);
+      padding:0;
+      overflow:hidden;
+      transition:opacity .28s ease;
+    }
+    .page.active{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+    }
+    .page-content{
+      width:100%;
+      min-height:100%;
+      padding:44px 44px 68px;
+      transform-origin:top left;
+      will-change:transform;
+    }
+    .viewer-stage.mode-reading .page.active{
+      overflow:auto;
+      scrollbar-gutter:stable both-edges;
+      padding-right:14px;
+      padding-bottom:18px;
+    }
+    .viewer-stage.mode-reading .page.active::-webkit-scrollbar{width:10px}
+    .viewer-stage.mode-reading .page.active::-webkit-scrollbar-thumb{background:rgba(16,124,65,.36);border-radius:999px;border:2px solid rgba(255,251,242,.85)}
+    .viewer-stage.mode-reading .page.active::-webkit-scrollbar-track{background:rgba(232,245,238,.78);border-radius:999px}
+    .viewer-stage.mode-fit .page.active{overflow:hidden}
+    .page-content.tight-mode{font-size:.94em}
+
+    .chapter-label{
+      display:inline-block;
+      color:var(--excel-dark);
+      background:var(--excel-soft);
+      border:1px solid #cde8d8;
+      padding:6px 12px;
+      border-radius:999px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      font-size:.8rem;
+    }
+    h2{
+      font-family:"Merriweather",Georgia,serif;
+      font-size:clamp(1.7rem,3vw,2.7rem);
+      line-height:1.1;
+      margin:14px 0 18px;
+      letter-spacing:-.035em;
+    }
+    h3{font-size:1.42rem;margin:32px 0 10px;color:#102419}
+    h4{font-size:1.12rem;margin:24px 0 6px;color:var(--excel-dark)}
+    p{margin:10px 0;color:#26382d}
+    .lead{font-size:1.13rem;color:#31463a}
+    .toc{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin-top:24px;
+    }
+    .toc a{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      background:#f7fbf8;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 16px;
+      color:#183522;
+    }
+    .toc a span:first-child{font-weight:900}
+    .toc a span:last-child{color:var(--muted);font-weight:700}
+    .callout{
+      border-radius:18px;
+      padding:18px 20px;
+      margin:20px 0;
+      border:1px solid var(--line);
+      background:#f8fcfa;
+    }
+    .callout strong{color:var(--excel-dark)}
+    .callout.info{background:var(--info);border-color:#cfe0ff}
+    .callout.warn{background:var(--warn);border-color:#f2e3a5}
+    .callout.danger{background:var(--danger);border-color:#f5c6c6}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+    .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{
+      background:#fbfdfc;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+    }
+    .card h4{margin-top:0}
+    .steps{counter-reset:step;display:grid;gap:12px;margin:16px 0}
+    .step{
+      counter-increment:step;
+      display:grid;
+      grid-template-columns:42px 1fr;
+      gap:12px;
+      align-items:start;
+      background:#fbfdfc;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+    }
+    .step::before{
+      content:counter(step);
+      width:34px;height:34px;border-radius:50%;
+      display:grid;place-items:center;
+      background:var(--excel);color:#fff;font-weight:900;
+    }
+    .figure{
+      margin:24px 0;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:linear-gradient(180deg,#fbfefc,#f3faf6);
+      overflow:hidden;
+    }
+    .fig-title{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:14px 18px;
+      background:#eef8f2;
+      border-bottom:1px solid var(--line);
+      font-weight:900;color:#174027;
+    }
+    .fig-body{padding:18px;overflow:auto}
+    .caption{font-size:.9rem;color:var(--muted);padding:0 18px 18px;margin:0}
+    .excel-ui{
+      min-width:760px;
+      background:white;
+      border:1px solid #d5e3da;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 12px 24px rgba(16,124,65,.08);
+    }
+    .excel-top{display:flex;align-items:center;gap:12px;background:#107C41;color:#fff;padding:10px 14px;font-weight:800}
+    .file-pill{margin-left:auto;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:99px;font-size:.82rem}
+    .tabs{display:flex;gap:6px;background:#f8fbf9;border-bottom:1px solid #dfece5;padding:8px 12px}
+    .tab{padding:7px 12px;border-radius:10px;font-weight:800;font-size:.82rem;color:#31463a;background:#fff;border:1px solid #dfebe4}
+    .tab.active{background:#e6f4ed;color:#0d6c39;border-color:#bde0cc}
+    .ribbon-row{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr .9fr;gap:10px;padding:12px;background:#fff;border-bottom:1px solid #e5eee8}
+    .group{border:1px solid #e1ece6;border-radius:12px;padding:9px;background:#fbfdfc;min-height:78px}
+    .group b{display:block;font-size:.74rem;color:#60766a;margin-top:6px;text-align:center}
+    .icons{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+    .ico{width:30px;height:26px;border-radius:7px;background:#e8f5ee;border:1px solid #cfe6d7;display:grid;place-items:center;font-size:.74rem;font-weight:900;color:#0b5a30}
+    .formula-bar{display:grid;grid-template-columns:70px 1fr;gap:8px;align-items:center;background:#f7fbf8;padding:8px 12px;border-bottom:1px solid #e5eee8}
+    .namebox,.fxbar{border:1px solid #d2e1d8;background:#fff;border-radius:8px;padding:8px;font-family:Consolas,monospace;font-size:.85rem;color:#31463a}
+    .fxbar::before{content:"fx  ";color:#107C41;font-weight:900}
+    .sheet-ui{display:grid;grid-template-columns:44px repeat(6,1fr);border-top:1px solid #d1e0d6;border-left:1px solid #d1e0d6}
+    .shead,.scell{height:36px;border-right:1px solid #d1e0d6;border-bottom:1px solid #d1e0d6;padding:6px 8px;font-size:.82rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:#fff}
+    .shead{background:#f1f6f3;text-align:center;font-weight:900;color:#536b5d}
+    .rowhead{background:#f1f6f3;text-align:center;font-weight:900;color:#536b5d}
+    .selected{outline:3px solid #107C41;outline-offset:-3px;background:#f8fffb}
+    .table-demo{width:100%;border-collapse:collapse;margin:16px 0;border-radius:14px;overflow:hidden;font-size:.96rem}
+    .table-demo th,.table-demo td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+    .table-demo th{background:#e8f5ee;color:#123d24}
+    .table-demo tr:nth-child(even) td{background:#fbfdfc}
+    code,.formula{
+      font-family:Consolas,Monaco,monospace;
+      background:#eff8f3;
+      border:1px solid #cde8d8;
+      border-radius:8px;
+      padding:2px 6px;
+      color:#0a6536;
+      font-weight:700;
+    }
+    .formula-box{
+      background:#102419;
+      color:#e7fff0;
+      border-radius:18px;
+      padding:18px;
+      margin:16px 0;
+      overflow:auto;
+      font-family:Consolas,Monaco,monospace;
+      border:1px solid #26583a;
+    }
+    .formula-box .comment{color:#9ddfb7}
+    .mini-phone,.mini-card{
+      border:1px solid var(--line);border-radius:18px;background:#fff;padding:16px;
+    }
+    .checklist{display:grid;gap:10px;margin:14px 0}
+    .check{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;background:#fbfdfc;border:1px solid var(--line);padding:12px;border-radius:14px}
+    .check::before{content:"✓";width:24px;height:24px;border-radius:50%;background:#107C41;color:#fff;display:grid;place-items:center;font-weight:900;font-size:.82rem}
+    .exercise{border-left:6px solid var(--excel);background:#f5fbf7;padding:18px 20px;border-radius:16px;margin:18px 0}
+    .kbd{display:inline-block;border:1px solid #c7d8ce;background:#fff;border-bottom-width:3px;border-radius:7px;padding:1px 7px;font-weight:900;font-size:.9em}
+    .footer{
+      text-align:center;color:#5f7166;padding:28px 12px;font-size:.92rem;
+    }
+    .small{font-size:.9rem;color:var(--muted)}
+    .divider{height:1px;background:var(--line);margin:28px 0}
+
+    @media(max-width:1080px){
+      body{overflow:auto}
+      .nav{display:flex}
+      .book-app{height:auto;grid-template-columns:1fr}
+      .sidebar{display:none}
+      .viewer-stage{min-height:75vh}
+      .viewer-toolbar{display:none}
+      .page{
+        position:relative;
+        inset:auto;
+        opacity:1;
+        visibility:visible;
+        pointer-events:auto;
+      }
+      .page-content{transform:none !important;width:auto !important}
+    }
+
+    @media(max-width:860px){
+      .cover > .page-content{grid-template-columns:1fr;padding:30px 30px 42px;min-height:auto}
+      .cover .meta,.three-col,.two-col,.toc{grid-template-columns:1fr}
+      .page-content{padding:28px 20px 42px}
+    }
+    @media print{
+      body{background:white}
+      .topbar,.sidebar,.viewer-toolbar,.scale-note{display:none}
+      .book-app,.viewer,.viewer-stage,.book{display:block;height:auto;overflow:visible;box-shadow:none;border:none;padding:0;margin:0}
+      .cover,.page{box-shadow:none;border-radius:0;page-break-after:auto;margin:0 0 18px}
+      .cover{min-height:auto;color:white;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+      .page{position:static;opacity:1;visibility:visible;border:none;box-shadow:none;page-break-after:always}
+      .page-content{transform:none !important;width:auto !important;padding:28px 28px 36px}
+      a{text-decoration:none;color:inherit}
+      .page{break-inside:avoid}
+      h2,h3{break-after:avoid}
+      .figure,.table-demo,.callout,.exercise{break-inside:avoid}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Ficha de Estudo — Microsoft Excel Online</div>
+      <nav class="nav" aria-label="Navegação da apostila">
+        <a href="#sumario">Sumário</a>
+        <a href="#cap3">O que é</a>
+        <a href="#cap6">Conceitos</a>
+        <a href="#cap20">Fórmulas</a>
+        <a href="#cap25">Funções</a>
+        <a href="#cap30">Gráficos</a>
+        <a href="#cap36">IA e Copilot</a>
+        <a href="#cap49">Glossário</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="book-app">
+    <aside class="sidebar" aria-label="Sumário lateral">
+      <h2>Sumário</h2>
+      <p>Selecione um tópico para exibir no painel de leitura.</p>
+      <nav class="sidebar-nav" id="sidebarNav">
+        <a href="#capa">Capa</a>
+        <a href="#sumario">Sumário</a>
+        <a href="#cap1">1. Tema central</a>
+        <a href="#cap2">2. Objetivo da ficha de estudo</a>
+        <a href="#cap3">3. O que é o Excel Online</a>
+        <a href="#cap4">4. Excel Online x Excel instalado</a>
+        <a href="#cap5">5. Para que serve uma planilha</a>
+        <a href="#cap6">6. Conceitos fundamentais</a>
+        <a href="#cap7">7. Regra essencial da célula</a>
+        <a href="#cap8">8. Conhecendo a interface do Excel Online</a>
+        <a href="#cap9">9. Primeiros passos no Excel Online</a>
+        <a href="#cap10">10. Salvamento automático</a>
+        <a href="#cap11">11. Como digitar em uma célula</a>
+        <a href="#cap12">12. Seleção de células</a>
+        <a href="#cap13">13. Edição básica</a>
+        <a href="#cap14">14. Formatação básica</a>
+        <a href="#cap15">15. Cuidados com células mescladas</a>
+        <a href="#cap16">16. Como organizar dados corretamente</a>
+        <a href="#cap17">17. Boas práticas para listas e tabelas</a>
+        <a href="#cap18">18. Classificação de dados</a>
+        <a href="#cap19">19. Filtros</a>
+        <a href="#cap20">20. Fórmulas básicas</a>
+        <a href="#cap21">21. Fórmulas usando células</a>
+        <a href="#cap22">22. Referência relativa</a>
+        <a href="#cap23">23. Referência absoluta</a>
+        <a href="#cap24">24. Erros comuns em fórmulas</a>
+        <a href="#cap25">25. Funções mais usadas</a>
+        <a href="#cap26">26. Funções condicionais</a>
+        <a href="#cap27">27. Funções de busca e organização</a>
+        <a href="#cap28">28. Funções de data e texto</a>
+        <a href="#cap29">29. Separador de argumentos</a>
+        <a href="#cap30">30. Gráficos</a>
+        <a href="#cap31">31. Tipos comuns de gráficos</a>
+        <a href="#cap32">32. Interpretação de gráficos</a>
+        <a href="#cap33">33. Compartilhamento e colaboração</a>
+        <a href="#cap34">34. Cuidados ao compartilhar planilhas</a>
+        <a href="#cap35">35. Exportação e impressão</a>
+        <a href="#cap36">36. Inteligência artificial e Copilot</a>
+        <a href="#cap37">37. Como pedir ajuda à IA</a>
+        <a href="#cap38">38. Cuidados com IA em planilhas</a>
+        <a href="#cap39">39. Roteiro de aprendizagem prática</a>
+        <a href="#cap40">40. Exercício prático 1 — Criar uma planilha simples</a>
+        <a href="#cap41">41. Exercício prático 2 — Controle de gastos</a>
+        <a href="#cap42">42. Exercício prático 3 — Lista de presença</a>
+        <a href="#cap43">43. Exercício prático 4 — Classificar e filtrar</a>
+        <a href="#cap44">44. Exercício prático 5 — Criar gráfico</a>
+        <a href="#cap45">45. Exercício prático 6 — Uso responsável de IA</a>
+        <a href="#cap46">46. Checklist de aprendizagem</a>
+        <a href="#cap47">47. Questões para revisão</a>
+        <a href="#cap48">48. Resumo para memorização</a>
+        <a href="#cap49">49. Glossário básico</a>
+        <a href="#cap50">50. Conclusão da ficha</a>
+      </nav>
+    </aside>
+
+    <section class="viewer" aria-label="Área de exibição da apostila">
+      <div class="viewer-toolbar">
+        <button id="prevPage" type="button">◀ Anterior</button>
+        <div class="viewer-status" id="viewerStatus">Tópico 1 de 1</div>
+        <label class="viewer-preference" for="scalePreference">
+          Exibição:
+          <select id="scalePreference">
+            <option value="reading" selected>Modo leitura</option>
+            <option value="fit">Modo reduzido</option>
+          </select>
+        </label>
+        <button id="nextPage" type="button">Próximo ▶</button>
+      </div>
+
+      <div class="viewer-stage" id="viewerStage">
+        <div class="scale-note" id="scaleNote">Ajuste automático para caber na tela</div>
+        <div class="book" id="bookPages">
+    <section class="page cover" id="capa">
+      <div>
+        <span class="badge">Ficha de estudo • Excel Online</span>
+        <h1>Microsoft Excel Online</h1>
+        <p>Material de revisão ampla e prática para compreender planilhas, organizar dados, aplicar fórmulas, criar gráficos, compartilhar arquivos e usar IA como apoio responsável ao aprendizado.</p>
+        <div class="meta">
+          <div><strong>Público-alvo</strong><span>Alunos iniciantes e usuários com pouca experiência em planilhas.</span></div>
+          <div><strong>Objetivo</strong><span>Dominar a lógica básica do Excel Online em tarefas cotidianas.</span></div>
+          <div><strong>Inclui IA</strong><span>Copilot, prompts, revisão de fórmulas e análise crítica de dados.</span></div>
+        </div>
+      </div>
+      <div class="mock-window" aria-label="Ilustração didática de uma planilha do Excel Online">
+        <div class="mock-titlebar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><strong style="margin-left:8px;color:#107C41">Ficha de Estudo — Excel Online</strong></div>
+        <div class="mock-ribbon"><span class="rib"></span><span class="rib"></span><span class="rib"></span><span class="rib"></span><span class="rib"></span><span class="rib"></span></div>
+        <div class="sheet">
+          <div class="grid">
+            <div class="head"></div><div class="head">A</div><div class="head">B</div><div class="head">C</div><div class="head">D</div><div class="head">E</div>
+            <div class="head">1</div><div class="cell green">Tema</div><div class="cell green">Exemplo</div><div class="cell green">Fórmula</div><div class="cell green">Resultado</div><div class="cell green">Revisão</div>
+            <div class="head">2</div><div class="cell">Células</div><div class="cell">B3</div><div class="cell">Referência</div><div class="cell">Endereço</div><div class="cell">OK</div>
+            <div class="head">3</div><div class="cell">Cálculo</div><div class="cell">Qtd. x Preço</div><div class="cell">=B3*C3</div><div class="cell">Total</div><div class="cell">OK</div>
+            <div class="head">4</div><div class="cell">Função</div><div class="cell">Intervalo</div><div class="cell">=SOMA(D2:D4)</div><div class="cell">Soma</div><div class="cell">OK</div>
+            <div class="head">5</div><div class="cell sum">Aprender</div><div class="cell"></div><div class="cell"></div><div class="cell sum">Praticar</div><div class="cell"></div>
+          </div>
+        </div>
+        <div class="toolbar-note">Ilustração didática criada para representar conceitos da ficha.</div>
+      </div>
+    </section>
+
+    <section class="page" id="sumario">
+      <span class="chapter-label">Sumário</span>
+      <h2>Ficha de estudo — Microsoft Excel Online</h2>
+      <p class="lead">Esta versão substitui a apostila pelo material da ficha de estudo, mantendo o mesmo layout visual, o menu lateral, o visor de páginas e a navegação por tópicos.</p>
+      <div class="toc">
+        <a href="#cap1"><span>1. Tema central</span><span>ficha 1</span></a><a href="#cap2"><span>2. Objetivo da ficha de estudo</span><span>ficha 2</span></a><a href="#cap3"><span>3. O que é o Excel Online</span><span>ficha 3</span></a><a href="#cap4"><span>4. Excel Online x Excel instalado</span><span>ficha 4</span></a><a href="#cap5"><span>5. Para que serve uma planilha</span><span>ficha 5</span></a><a href="#cap6"><span>6. Conceitos fundamentais</span><span>ficha 6</span></a><a href="#cap7"><span>7. Regra essencial da célula</span><span>ficha 7</span></a><a href="#cap8"><span>8. Conhecendo a interface do Excel Online</span><span>ficha 8</span></a><a href="#cap9"><span>9. Primeiros passos no Excel Online</span><span>ficha 9</span></a><a href="#cap10"><span>10. Salvamento automático</span><span>ficha 10</span></a><a href="#cap11"><span>11. Como digitar em uma célula</span><span>ficha 11</span></a><a href="#cap12"><span>12. Seleção de células</span><span>ficha 12</span></a><a href="#cap13"><span>13. Edição básica</span><span>ficha 13</span></a><a href="#cap14"><span>14. Formatação básica</span><span>ficha 14</span></a><a href="#cap15"><span>15. Cuidados com células mescladas</span><span>ficha 15</span></a><a href="#cap16"><span>16. Como organizar dados corretamente</span><span>ficha 16</span></a><a href="#cap17"><span>17. Boas práticas para listas e tabelas</span><span>ficha 17</span></a><a href="#cap18"><span>18. Classificação de dados</span><span>ficha 18</span></a><a href="#cap19"><span>19. Filtros</span><span>ficha 19</span></a><a href="#cap20"><span>20. Fórmulas básicas</span><span>ficha 20</span></a><a href="#cap21"><span>21. Fórmulas usando células</span><span>ficha 21</span></a><a href="#cap22"><span>22. Referência relativa</span><span>ficha 22</span></a><a href="#cap23"><span>23. Referência absoluta</span><span>ficha 23</span></a><a href="#cap24"><span>24. Erros comuns em fórmulas</span><span>ficha 24</span></a><a href="#cap25"><span>25. Funções mais usadas</span><span>ficha 25</span></a><a href="#cap26"><span>26. Funções condicionais</span><span>ficha 26</span></a><a href="#cap27"><span>27. Funções de busca e organização</span><span>ficha 27</span></a><a href="#cap28"><span>28. Funções de data e texto</span><span>ficha 28</span></a><a href="#cap29"><span>29. Separador de argumentos</span><span>ficha 29</span></a><a href="#cap30"><span>30. Gráficos</span><span>ficha 30</span></a><a href="#cap31"><span>31. Tipos comuns de gráficos</span><span>ficha 31</span></a><a href="#cap32"><span>32. Interpretação de gráficos</span><span>ficha 32</span></a><a href="#cap33"><span>33. Compartilhamento e colaboração</span><span>ficha 33</span></a><a href="#cap34"><span>34. Cuidados ao compartilhar planilhas</span><span>ficha 34</span></a><a href="#cap35"><span>35. Exportação e impressão</span><span>ficha 35</span></a><a href="#cap36"><span>36. Inteligência artificial e Copilot</span><span>ficha 36</span></a><a href="#cap37"><span>37. Como pedir ajuda à IA</span><span>ficha 37</span></a><a href="#cap38"><span>38. Cuidados com IA em planilhas</span><span>ficha 38</span></a><a href="#cap39"><span>39. Roteiro de aprendizagem prática</span><span>ficha 39</span></a><a href="#cap40"><span>40. Exercício prático 1 — Criar uma planilha simples</span><span>ficha 40</span></a><a href="#cap41"><span>41. Exercício prático 2 — Controle de gastos</span><span>ficha 41</span></a><a href="#cap42"><span>42. Exercício prático 3 — Lista de presença</span><span>ficha 42</span></a><a href="#cap43"><span>43. Exercício prático 4 — Classificar e filtrar</span><span>ficha 43</span></a><a href="#cap44"><span>44. Exercício prático 5 — Criar gráfico</span><span>ficha 44</span></a><a href="#cap45"><span>45. Exercício prático 6 — Uso responsável de IA</span><span>ficha 45</span></a><a href="#cap46"><span>46. Checklist de aprendizagem</span><span>ficha 46</span></a><a href="#cap47"><span>47. Questões para revisão</span><span>ficha 47</span></a><a href="#cap48"><span>48. Resumo para memorização</span><span>ficha 48</span></a><a href="#cap49"><span>49. Glossário básico</span><span>ficha 49</span></a><a href="#cap50"><span>50. Conclusão da ficha</span><span>ficha 50</span></a>
+      </div>
+    </section>
+
+    <section class="page" id="cap1">
+      <span class="chapter-label">Ficha 1</span>
+      <h2>1. Tema central</h2>
+      <p class="lead">O Microsoft Excel Online, também chamado de Excel para a Web, é a versão do Excel que funciona diretamente no navegador. Ele permite criar, editar, organizar, calcular, analisar e compartilhar planilhas pela internet, sem exigir que o programa esteja instalado no computador.</p><p>O Excel Online é usado para trabalhar com dados organizados em linhas e colunas. Esses dados podem representar gastos, receitas, produtos, notas, frequências, cadastros, listas, estoques, vendas, tarefas, cronogramas, relatórios e diversas outras informações do cotidiano pessoal, escolar, institucional ou profissional.</p><p>A proposta principal da ferramenta é permitir que o usuário crie planilhas salvas na nuvem, normalmente no OneDrive, com possibilidade de colaboração, edição em tempo real, uso de fórmulas, criação de gráficos e apoio de inteligência artificial por meio do Copilot, quando disponível para a conta, plano, idioma e região do usuário.</p>
+    </section>
+
+    <section class="page" id="cap2">
+      <span class="chapter-label">Ficha 2</span>
+      <h2>2. Objetivo da ficha de estudo</h2>
+      <p class="lead">Esta ficha tem como objetivo preparar o aluno iniciante para compreender a lógica das planilhas eletrônicas e utilizar o Microsoft Excel Online em tarefas básicas do cotidiano.</p><p>Ao final do estudo, o aluno deverá ser capaz de reconhecer a estrutura de uma planilha, criar uma pasta de trabalho, digitar e formatar dados, organizar tabelas, aplicar fórmulas simples, utilizar funções essenciais, criar gráficos, compartilhar arquivos com segurança e usar recursos de inteligência artificial de forma responsável.</p>
+    </section>
+
+    <section class="page" id="cap3">
+      <span class="chapter-label">Ficha 3</span>
+      <h2>3. O que é o Excel Online</h2>
+      <p class="lead">O Excel Online é uma ferramenta de planilhas acessada pela internet. Diferente do Excel instalado no computador, ele funciona no navegador, como Microsoft Edge, Google Chrome, Firefox ou Safari. O usuário entra com uma conta Microsoft e pode criar ou abrir planilhas salvas no OneDrive.</p><p>Uma planilha é uma estrutura organizada em linhas e colunas. O cruzamento entre uma linha e uma coluna forma uma célula. Cada célula pode receber texto, número, data, fórmula ou função.</p><p>O Excel Online é especialmente útil para tarefas como controle financeiro, listas de presença, boletins de notas, orçamentos, cadastros, planejamento de aulas, controle de estoque, acompanhamento de vendas, registro de despesas, comparação de dados e criação de gráficos.</p>
+    </section>
+
+    <section class="page" id="cap4">
+      <span class="chapter-label">Ficha 4</span>
+      <h2>4. Excel Online x Excel instalado</h2>
+      <p class="lead">O Excel Online é suficiente para muitas tarefas básicas e intermediárias. Ele permite criar tabelas, usar fórmulas, aplicar funções, organizar dados, filtrar informações, criar gráficos e compartilhar arquivos.</p><p>A versão instalada do Excel costuma ter recursos mais avançados, melhor desempenho em arquivos muito grandes, mais ferramentas profissionais e maior integração com arquivos locais. Porém, para alunos iniciantes, o Excel Online atende muito bem ao aprendizado inicial e ao uso cotidiano.</p><p>A principal vantagem do Excel Online é a facilidade de acesso. O arquivo fica salvo na nuvem, pode ser aberto em diferentes dispositivos e pode ser compartilhado com outras pessoas.</p>
+    </section>
+
+    <section class="page" id="cap5">
+      <span class="chapter-label">Ficha 5</span>
+      <h2>5. Para que serve uma planilha</h2>
+      <p class="lead">Uma planilha serve para registrar, organizar, calcular e interpretar informações. Ela transforma dados soltos em uma estrutura mais fácil de consultar.</p><p>Em casa, uma planilha pode ser usada para controlar receitas, despesas, contas pagas, compras do mês e planejamento financeiro.</p><p>Na escola, pode servir para notas, frequência, atividades, cronogramas, avaliações e listas de alunos.</p><p>Em uma igreja, associação ou instituição, pode ser usada para cadastro de participantes, contribuições, eventos, controle de materiais e relatórios.</p><p>Em um pequeno negócio, pode ajudar no controle de estoque, vendas, clientes, fluxo de caixa, orçamento, serviços prestados e acompanhamento de metas.</p>
+    </section>
+
+    <section class="page" id="cap6">
+      <span class="chapter-label">Ficha 6</span>
+      <h2>6. Conceitos fundamentais</h2>
+      <p class="lead">A <strong>pasta de trabalho</strong> é o arquivo inteiro do Excel. Um exemplo seria “Controle_Financeiro_2026.xlsx”.</p><div class="figure">
+          <div class="fig-title">Figura — Estrutura essencial de uma planilha</div>
+          <div class="fig-body">
+            <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de pasta de trabalho, planilha, linha, coluna e célula">
+              <rect width="760" height="260" rx="20" fill="#f3faf6"/>
+              <rect x="38" y="38" width="684" height="184" rx="18" fill="#fff" stroke="#d8e4dc"/>
+              <rect x="74" y="74" width="612" height="112" rx="10" fill="#fbfdfc" stroke="#cfe1d6"/>
+              <g font-family="Arial, sans-serif" font-size="13" fill="#536b5d" text-anchor="middle">
+                <rect x="74" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="110" y="93">A</text>
+                <rect x="146" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="182" y="93">B</text>
+                <rect x="218" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="254" y="93">C</text>
+                <rect x="290" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="326" y="93">D</text>
+                <rect x="362" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="398" y="93">E</text>
+                <rect x="434" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="470" y="93">F</text>
+                <rect x="74" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="110" y="121">1</text>
+                <rect x="146" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="182" y="121">Texto</text>
+                <rect x="218" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="254" y="121">10</text>
+                <rect x="290" y="102" width="72" height="28" fill="#e8f5ee" stroke="#107C41"/><text x="326" y="121" fill="#0b5a30" font-weight="700">C2</text>
+                <rect x="362" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="398" y="121">=</text>
+                <rect x="434" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="470" y="121">Data</text>
+                <rect x="74" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="110" y="149">2</text>
+                <rect x="146" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="182" y="149">Item</text>
+                <rect x="218" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="254" y="149">20</text>
+                <rect x="290" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="326" y="149">30</text>
+                <rect x="362" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="398" y="149">50</text>
+                <rect x="434" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="470" y="149">OK</text>
+              </g>
+              <text x="382" y="32" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="#0b5a30">Pasta de trabalho → planilhas → células</text>
+              <text x="380" y="220" text-anchor="middle" font-family="Arial" font-size="13" fill="#5d6f64">A célula selecionada tem endereço próprio: letra da coluna + número da linha.</text>
+            </svg>
+          </div>
+          <p class="caption">Visualização didática: a planilha é uma grade de células; cada célula possui um endereço usado em cálculos e fórmulas.</p>
+        </div><p>A <strong>planilha</strong> é uma aba dentro da pasta de trabalho. Um mesmo arquivo pode ter várias planilhas, como “Janeiro”, “Fevereiro”, “Estoque” ou “Vendas”.</p><p>A <strong>coluna</strong> é o conjunto vertical de células, identificado por letras, como A, B, C e D.</p><p>A <strong>linha</strong> é o conjunto horizontal de células, identificado por números, como 1, 2, 3 e 4.</p><p>A <strong>célula</strong> é o espaço onde o usuário digita uma informação. Ela é identificada pela combinação da letra da coluna com o número da linha. Por exemplo, A1, B2 e C10.</p><p>O <strong>intervalo</strong> é um grupo de células selecionadas. Por exemplo, A1:C10 indica todas as células entre a coluna A e a coluna C, da linha 1 até a linha 10.</p>
+    </section>
+
+    <section class="page" id="cap7">
+      <span class="chapter-label">Ficha 7</span>
+      <h2>7. Regra essencial da célula</h2>
+      <p class="lead">Toda célula tem um endereço. Esse endereço é formado por uma letra e um número.</p><div class="figure">
+          <div class="fig-title">Figura — Estrutura essencial de uma planilha</div>
+          <div class="fig-body">
+            <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de pasta de trabalho, planilha, linha, coluna e célula">
+              <rect width="760" height="260" rx="20" fill="#f3faf6"/>
+              <rect x="38" y="38" width="684" height="184" rx="18" fill="#fff" stroke="#d8e4dc"/>
+              <rect x="74" y="74" width="612" height="112" rx="10" fill="#fbfdfc" stroke="#cfe1d6"/>
+              <g font-family="Arial, sans-serif" font-size="13" fill="#536b5d" text-anchor="middle">
+                <rect x="74" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="110" y="93">A</text>
+                <rect x="146" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="182" y="93">B</text>
+                <rect x="218" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="254" y="93">C</text>
+                <rect x="290" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="326" y="93">D</text>
+                <rect x="362" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="398" y="93">E</text>
+                <rect x="434" y="74" width="72" height="28" fill="#eff6f2" stroke="#cfe1d6"/><text x="470" y="93">F</text>
+                <rect x="74" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="110" y="121">1</text>
+                <rect x="146" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="182" y="121">Texto</text>
+                <rect x="218" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="254" y="121">10</text>
+                <rect x="290" y="102" width="72" height="28" fill="#e8f5ee" stroke="#107C41"/><text x="326" y="121" fill="#0b5a30" font-weight="700">C2</text>
+                <rect x="362" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="398" y="121">=</text>
+                <rect x="434" y="102" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="470" y="121">Data</text>
+                <rect x="74" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="110" y="149">2</text>
+                <rect x="146" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="182" y="149">Item</text>
+                <rect x="218" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="254" y="149">20</text>
+                <rect x="290" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="326" y="149">30</text>
+                <rect x="362" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="398" y="149">50</text>
+                <rect x="434" y="130" width="72" height="28" fill="#fff" stroke="#cfe1d6"/><text x="470" y="149">OK</text>
+              </g>
+              <text x="382" y="32" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="#0b5a30">Pasta de trabalho → planilhas → células</text>
+              <text x="380" y="220" text-anchor="middle" font-family="Arial" font-size="13" fill="#5d6f64">A célula selecionada tem endereço próprio: letra da coluna + número da linha.</text>
+            </svg>
+          </div>
+          <p class="caption">Visualização didática: a planilha é uma grade de células; cada célula possui um endereço usado em cálculos e fórmulas.</p>
+        </div><p>A letra indica a coluna.</p><p>O número indica a linha.</p><p>Portanto, a célula B3 está na coluna B e na linha 3. A célula D10 está na coluna D e na linha 10.</p><p>Esse conceito é fundamental porque as fórmulas usam endereços de células para calcular valores. Em vez de escrever diretamente os números dentro da fórmula, o usuário informa quais células devem ser usadas no cálculo.</p>
+    </section>
+
+    <section class="page" id="cap8">
+      <span class="chapter-label">Ficha 8</span>
+      <h2>8. Conhecendo a interface do Excel Online</h2>
+      <p class="lead">A interface do Excel Online é formada por áreas principais.</p><p>A <strong>faixa de opções</strong> fica na parte superior da tela e reúne comandos organizados por abas. Algumas abas comuns são Página Inicial, Inserir, Fórmulas, Dados, Revisão e Exibir.</p><p>A <strong>barra de fórmulas</strong> mostra o conteúdo da célula selecionada. Ela pode exibir um texto, número, data ou fórmula.</p><p>A <strong>caixa de nome</strong> geralmente mostra o endereço da célula selecionada, como A1 ou B3.</p><p>A <strong>área da planilha</strong> é a grade onde ficam linhas, colunas e células.</p><p>As <strong>abas de planilha</strong> ficam na parte inferior e permitem alternar entre diferentes planilhas dentro do mesmo arquivo.</p><p>O botão ou área de <strong>compartilhamento</strong> permite enviar o arquivo para outras pessoas, definir permissões e colaborar online.</p>
+    </section>
+
+    <section class="page" id="cap9">
+      <span class="chapter-label">Ficha 9</span>
+      <h2>9. Primeiros passos no Excel Online</h2>
+      <p class="lead">Para começar, o aluno deve acessar o Microsoft 365, o OneDrive ou o Excel Online pelo navegador. Depois, deve entrar com sua conta Microsoft.</p><p>Em seguida, pode criar uma nova pasta de trabalho. Normalmente, isso é feito clicando em “Novo” e escolhendo a opção de pasta de trabalho do Excel.</p><p>Depois que a planilha abrir, o aluno deve renomear o arquivo. Esse passo é importante para evitar arquivos com nomes genéricos, como “Pasta1”, “Book1” ou “Planilha nova”.</p><p>Um bom nome deve indicar o conteúdo e, se necessário, o período. Exemplos:</p><p>“Controle_Financeiro_Abril_2026.xlsx”</p><p>“Lista_Presenca_Curso_Excel.xlsx”</p><p>“Notas_Turma_Informatica_Basica.xlsx”</p><p>“Estoque_Material_Escolar_2026.xlsx”</p><p>“Orcamento_Compras_Maio_2026.xlsx”</p>
+    </section>
+
+    <section class="page" id="cap10">
+      <span class="chapter-label">Ficha 10</span>
+      <h2>10. Salvamento automático</h2>
+      <p class="lead">No Excel Online, as alterações geralmente são salvas automaticamente na nuvem. Isso reduz o risco de perder dados por esquecer de salvar.</p><p>Mesmo assim, o aluno deve conferir três pontos importantes: se está usando a conta correta, se o arquivo tem nome adequado e se a conexão com a internet está funcionando.</p><p>Em computadores compartilhados, é necessário cuidado redobrado. O aluno deve verificar se está logado em sua própria conta e sair da conta ao terminar o uso.</p>
+    </section>
+
+    <section class="page" id="cap11">
+      <span class="chapter-label">Ficha 11</span>
+      <h2>11. Como digitar em uma célula</h2>
+      <p class="lead">Para digitar em uma célula, o aluno deve clicar uma vez sobre ela, escrever o conteúdo e pressionar Enter para confirmar.</p><p>A célula pode receber texto, número, data, valor em moeda, porcentagem ou fórmula.</p><p>Exemplo de texto: “Caderno”.</p><p>Exemplo de número: 10.</p><p>Exemplo de data: 25/04/2026.</p><p>Exemplo de moeda: R$ 35,90.</p><p>Exemplo de fórmula: =B2*C2.</p><p>Se o usuário quiser cancelar a edição antes de confirmar, pode usar Esc. Se quiser alterar uma célula já preenchida, pode clicar nela e editar o conteúdo pela barra de fórmulas ou pela própria célula.</p>
+    </section>
+
+    <section class="page" id="cap12">
+      <span class="chapter-label">Ficha 12</span>
+      <h2>12. Seleção de células</h2>
+      <p class="lead">Selecionar células significa marcar uma ou mais células para aplicar algum comando. O aluno pode selecionar uma célula, uma linha, uma coluna ou um intervalo.</p><p>Para selecionar uma célula, basta clicar nela.</p><p>Para selecionar várias células, clique na primeira, segure o botão do mouse e arraste até a última.</p><p>Para selecionar uma coluna inteira, clique na letra da coluna.</p><p>Para selecionar uma linha inteira, clique no número da linha.</p><p>A seleção é importante para aplicar formatação, copiar dados, mover informações, criar gráficos, inserir bordas ou usar fórmulas em intervalos.</p>
+    </section>
+
+    <section class="page" id="cap13">
+      <span class="chapter-label">Ficha 13</span>
+      <h2>13. Edição básica</h2>
+      <p class="lead">A edição básica inclui copiar, colar, recortar, apagar e desfazer ações.</p><p>Copiar duplica o conteúdo selecionado sem removê-lo do lugar original.</p><p>Colar insere o conteúdo copiado em outro local.</p><p>Recortar remove o conteúdo do local original para transferi-lo a outro ponto da planilha.</p><p>Desfazer volta a última ação realizada, sendo útil quando o usuário comete um erro.</p><p>Esses comandos são essenciais para trabalhar com rapidez e evitar retrabalho.</p>
+    </section>
+
+    <section class="page" id="cap14">
+      <span class="chapter-label">Ficha 14</span>
+      <h2>14. Formatação básica</h2>
+      <p class="lead">Formatar uma planilha significa modificar a aparência das células para facilitar a leitura. A formatação não deve ser usada apenas para “enfeitar”; ela deve ajudar a compreender os dados.</p><p>O <strong>negrito</strong> é útil para destacar cabeçalhos, totais e títulos.</p><p>A <strong>cor de preenchimento</strong> ajuda a separar áreas, como cabeçalhos, totais e alertas.</p><p>As <strong>bordas</strong> delimitam tabelas e facilitam a visualização de linhas e colunas.</p><p>O formato <strong>moeda</strong> deve ser usado em valores financeiros.</p><p>O formato <strong>porcentagem</strong> deve ser usado em taxas, descontos, crescimento ou participação.</p><p>O formato <strong>data</strong> deve ser usado em prazos, registros, pagamentos e eventos.</p><p>Uma planilha clara costuma ter cabeçalhos destacados, dados alinhados, formatos numéricos corretos e poucas cores. O excesso de cores pode tornar a leitura mais difícil.</p>
+    </section>
+
+    <section class="page" id="cap15">
+      <span class="chapter-label">Ficha 15</span>
+      <h2>15. Cuidados com células mescladas</h2>
+      <p class="lead">Mesclar células significa unir duas ou mais células em uma só. Esse recurso pode ser útil para títulos, mas deve ser usado com moderação.</p><p>Em planilhas de dados, células mescladas podem atrapalhar filtros, classificações, cópias, fórmulas e organização da tabela.</p><p>Para iniciantes, a recomendação é usar mesclagem apenas em títulos visuais, nunca no meio de tabelas que precisam ser filtradas ou calculadas.</p>
+    </section>
+
+    <section class="page" id="cap16">
+      <span class="chapter-label">Ficha 16</span>
+      <h2>16. Como organizar dados corretamente</h2>
+      <p class="lead">Uma planilha eficiente precisa ser organizada desde o início. A primeira linha deve conter os cabeçalhos, como Data, Descrição, Categoria, Tipo, Valor e Observação.</p><p>Cada informação deve ficar em sua própria coluna. Por exemplo, em vez de escrever “Mercado R$ 280,00 pago em 03/04/2026” em uma única célula, o ideal é separar:</p><p>Data: 03/04/2026</p><p>Descrição: Mercado</p><p>Categoria: Alimentação</p><p>Tipo: Despesa</p><p>Valor: R$ 280,00</p><p>Status: Pago</p><p>Essa organização permite calcular, filtrar, classificar e criar gráficos com mais facilidade.</p>
+    </section>
+
+    <section class="page" id="cap17">
+      <span class="chapter-label">Ficha 17</span>
+      <h2>17. Boas práticas para listas e tabelas</h2>
+      <p class="lead">Use a primeira linha como cabeçalho.</p><p>Evite deixar linhas em branco dentro da tabela.</p><p>Não misture assuntos diferentes na mesma tabela.</p><p>Padronize datas, nomes e categorias.</p><p>Evite escrever valores financeiros como texto.</p><p>Não use espaços desnecessários antes ou depois das palavras.</p><p>Use categorias consistentes. Por exemplo, escolha sempre “Alimentação”, e não varie entre “alimentação”, “mercado”, “comida” e “compras” sem critério.</p><p>Mantenha a tabela simples e limpa antes de aplicar filtros, gráficos ou IA.</p>
+    </section>
+
+    <section class="page" id="cap18">
+      <span class="chapter-label">Ficha 18</span>
+      <h2>18. Classificação de dados</h2>
+      <p class="lead">Classificar significa colocar os dados em ordem. Essa ordem pode ser alfabética, numérica, cronológica ou por critério personalizado.</p><p>Exemplos de classificação:</p><p>Organizar nomes de alunos em ordem alfabética.</p><p>Organizar gastos do maior valor para o menor.</p><p>Organizar datas da mais antiga para a mais recente.</p><p>Organizar produtos por categoria.</p><p>A classificação ajuda a localizar informações e perceber padrões.</p>
+    </section>
+
+    <section class="page" id="cap19">
+      <span class="chapter-label">Ficha 19</span>
+      <h2>19. Filtros</h2>
+      <p class="lead">Filtrar significa mostrar apenas uma parte dos dados, sem apagar o restante da tabela.</p><p>Por exemplo, em uma planilha financeira, o aluno pode filtrar apenas despesas da categoria “Alimentação”. Em uma planilha de vendas, pode mostrar apenas os produtos vendidos em março. Em uma lista de alunos, pode exibir apenas os que estão com status “Pendente”.</p><p>O filtro é útil porque permite analisar partes específicas de uma tabela grande sem modificar os dados originais.</p>
+    </section>
+
+    <section class="page" id="cap20">
+      <span class="chapter-label">Ficha 20</span>
+      <h2>20. Fórmulas básicas</h2>
+      <p class="lead">Fórmula é uma instrução de cálculo. No Excel, toda fórmula começa com o sinal de igual.</p><div class="figure">
+          <div class="fig-title">Figura — Como uma fórmula calcula automaticamente</div>
+          <div class="fig-body">
+            <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fluxo de cálculo de uma fórmula no Excel">
+              <rect width="760" height="220" rx="20" fill="#f7fbf8"/>
+              <g font-family="Arial, sans-serif" text-anchor="middle">
+                <rect x="58" y="66" width="150" height="74" rx="16" fill="#fff" stroke="#d8e4dc"/>
+                <text x="133" y="94" font-size="16" font-weight="700" fill="#0b5a30">B2</text>
+                <text x="133" y="118" font-size="18" fill="#16231b">3</text>
+                <rect x="305" y="66" width="150" height="74" rx="16" fill="#fff" stroke="#d8e4dc"/>
+                <text x="380" y="94" font-size="16" font-weight="700" fill="#0b5a30">C2</text>
+                <text x="380" y="118" font-size="18" fill="#16231b">12,00</text>
+                <rect x="552" y="66" width="150" height="74" rx="16" fill="#107C41"/>
+                <text x="627" y="94" font-size="16" font-weight="700" fill="#fff">D2</text>
+                <text x="627" y="118" font-size="18" fill="#fff">=B2*C2</text>
+                <path d="M218 103h75" stroke="#107C41" stroke-width="4" stroke-linecap="round"/>
+                <path d="M283 93l18 10-18 10" fill="none" stroke="#107C41" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M465 103h75" stroke="#107C41" stroke-width="4" stroke-linecap="round"/>
+                <path d="M530 93l18 10-18 10" fill="none" stroke="#107C41" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="133" y="164" font-size="13" fill="#5d6f64">Quantidade</text>
+                <text x="380" y="164" font-size="13" fill="#5d6f64">Preço unitário</text>
+                <text x="627" y="164" font-size="13" fill="#5d6f64">Total automático</text>
+              </g>
+            </svg>
+          </div>
+          <p class="caption">A vantagem da fórmula é que o resultado muda automaticamente se a quantidade ou o preço for alterado.</p>
+        </div><p>Exemplo:</p><div class="formula-box">= A1 + B1</div><p>Na prática, sem os espaços:</p><div class="formula-box">=A1+B1</div><p>Essa fórmula soma o valor da célula A1 com o valor da célula B1.</p><p>Os principais operadores matemáticos são:</p><p><code>*</code> para soma.</p><p><code>-</code> para subtração.</p><p><code>*</code> para multiplicação.</p><p><code>/</code> para divisão.</p><p><code>%</code> para porcentagem.</p><p>Exemplos:</p><div class="formula-box">=A1+B1 soma dois valores.</div><div class="formula-box">=A1-B1 subtrai um valor do outro.</div><div class="formula-box">=A1*B1 multiplica dois valores.</div><div class="formula-box">=A1/B1 divide um valor por outro.</div><div class="formula-box">=A1*10% calcula 10% de um valor.</div>
+    </section>
+
+    <section class="page" id="cap21">
+      <span class="chapter-label">Ficha 21</span>
+      <h2>21. Fórmulas usando células</h2>
+      <p class="lead">O ideal é usar referências de células nas fórmulas, e não apenas números fixos.</p><p>Por exemplo, se a célula B2 contém a quantidade e a célula C2 contém o preço, o total pode ser calculado com:</p><div class="formula-box">=B2*C2</div><p>Essa fórmula é melhor do que digitar manualmente o resultado, porque se a quantidade ou o preço mudar, o Excel recalcula automaticamente.</p>
+    </section>
+
+    <section class="page" id="cap22">
+      <span class="chapter-label">Ficha 22</span>
+      <h2>22. Referência relativa</h2>
+      <p class="lead">Referência relativa é aquela que muda quando a fórmula é copiada para outra linha ou coluna.</p><p>Exemplo: se a célula C2 contém:</p><div class="formula-box">=A2+B2</div><p>Ao copiar a fórmula para C3, ela pode virar:</p><div class="formula-box">=A3+B3</div><p>Esse comportamento é útil quando a mesma lógica de cálculo precisa ser aplicada a várias linhas.</p>
+    </section>
+
+    <section class="page" id="cap23">
+      <span class="chapter-label">Ficha 23</span>
+      <h2>23. Referência absoluta</h2>
+      <p class="lead">Referência absoluta é aquela que fica travada. Ela usa o símbolo $.</p><p>Exemplo:</p><div class="formula-box">=$B$1</div><p>Isso significa que a fórmula deve usar sempre a célula B1, mesmo que seja copiada para outras células.</p><p>Esse recurso é útil quando uma fórmula precisa usar um valor fixo, como uma taxa de desconto, percentual de imposto ou cotação.</p>
+    </section>
+
+    <section class="page" id="cap24">
+      <span class="chapter-label">Ficha 24</span>
+      <h2>24. Erros comuns em fórmulas</h2>
+      <p class="lead">O erro <strong>#DIV/0!</strong> aparece quando a fórmula tenta dividir por zero ou por uma célula vazia.</p><p>O erro <strong>#NOME?</strong> pode aparecer quando o nome da função foi digitado incorretamente.</p><p>O erro <strong>#VALOR!</strong> pode aparecer quando a fórmula tenta calcular usando um tipo de dado inadequado, como texto no lugar de número.</p><p>O erro <strong>#N/D</strong> pode aparecer quando uma função de busca não encontra o valor procurado.</p><p>Ao encontrar um erro, o aluno deve verificar as células usadas na fórmula, a grafia da função, os sinais matemáticos e o tipo de dado digitado.</p>
+    </section>
+
+    <section class="page" id="cap25">
+      <span class="chapter-label">Ficha 25</span>
+      <h2>25. Funções mais usadas</h2>
+      <p class="lead">Funções são fórmulas prontas. Elas facilitam cálculos comuns e reduzem erros.</p><p>A função <strong>SOMA</strong> soma valores de um intervalo.</p><p>Exemplo:</p><div class="formula-box">=SOMA(B2:B10)</div><p>A função <strong>MÉDIA</strong> calcula a média dos valores.</p><p>Exemplo:</p><div class="formula-box">=MÉDIA(C2:C10)</div><p>A função <strong>MÍNIMO</strong> mostra o menor valor.</p><p>Exemplo:</p><div class="formula-box">=MÍNIMO(D2:D20)</div><p>A função <strong>MÁXIMO</strong> mostra o maior valor.</p><p>Exemplo:</p><div class="formula-box">=MÁXIMO(D2:D20)</div><p>A função <strong>CONT.NÚM</strong> conta células com números.</p><p>Exemplo:</p><div class="formula-box">=CONT.NÚM(A2:A50)</div><p>A função <strong>CONT.VALORES</strong> conta células preenchidas.</p><p>Exemplo:</p><div class="formula-box">=CONT.VALORES(A2:A50)</div>
+    </section>
+
+    <section class="page" id="cap26">
+      <span class="chapter-label">Ficha 26</span>
+      <h2>26. Funções condicionais</h2>
+      <p class="lead">As funções condicionais ajudam a calcular ou retornar resultados com base em critérios.</p><p>A função <strong>SE</strong> retorna um resultado se a condição for verdadeira e outro se for falsa.</p><p>Exemplo:</p><div class="formula-box">=SE(B2&gt;=7;&quot;Aprovado&quot;;&quot;Reprovado&quot;)</div><p>Nesse caso, se o valor de B2 for maior ou igual a 7, o resultado será “Aprovado”. Caso contrário, será “Reprovado”.</p><p>A função <strong>CONT.SE</strong> conta quantas células atendem a um critério.</p><p>Exemplo:</p><div class="formula-box">=CONT.SE(C2:C30;&quot;Pago&quot;)</div><p>A função <strong>SOMASE</strong> soma apenas os valores que atendem a um critério.</p><p>Exemplo:</p><div class="formula-box">=SOMASE(B2:B30;&quot;Mercado&quot;;C2:C30)</div><p>A função <strong>MÉDIASE</strong> calcula a média apenas dos valores que atendem a um critério.</p><p>A função <strong>SEERRO</strong> mostra uma resposta alternativa quando a fórmula gera erro.</p><p>Exemplo:</p><div class="formula-box">=SEERRO(A2/B2;&quot;Verificar&quot;)</div>
+    </section>
+
+    <section class="page" id="cap27">
+      <span class="chapter-label">Ficha 27</span>
+      <h2>27. Funções de busca e organização</h2>
+      <p class="lead">A função <strong>PROCV</strong> busca um valor em uma tabela vertical. É muito usada em cadastros, listas de preços e consultas simples.</p><p>A função <strong>PROCX</strong> é uma função de busca mais moderna e flexível. Ela pode procurar um valor em uma coluna e retornar o resultado correspondente de outra coluna.</p><p>A função <strong>FILTRO</strong> mostra apenas as linhas que atendem a uma condição.</p><p>A função <strong>ÚNICO</strong> lista valores sem repetição.</p><p>A função <strong>CLASSIFICAR</strong> organiza dados em ordem.</p><p>Essas funções são úteis para alunos que já dominam o básico e querem avançar para planilhas mais inteligentes.</p>
+    </section>
+
+    <section class="page" id="cap28">
+      <span class="chapter-label">Ficha 28</span>
+      <h2>28. Funções de data e texto</h2>
+      <p class="lead">A função <strong>HOJE</strong> mostra a data atual.</p><p>Exemplo:</p><div class="formula-box">=HOJE()</div><p>A função <strong>AGORA</strong> mostra a data e a hora atuais.</p><p>Exemplo:</p><div class="formula-box">=AGORA()</div><p>A função <strong>CONCAT</strong> junta textos.</p><p>Exemplo:</p><div class="formula-box">=CONCAT(A2;&quot; &quot;;B2)</div><p>A função <strong>TEXTO</strong> formata um número como texto.</p><p>A função <strong>ESQUERDA</strong> extrai caracteres do início de uma palavra ou código.</p><p>Essas funções ajudam a organizar nomes, datas, códigos, descrições e relatórios.</p>
+    </section>
+
+    <section class="page" id="cap29">
+      <span class="chapter-label">Ficha 29</span>
+      <h2>29. Separador de argumentos</h2>
+      <p class="lead">Em muitas configurações em português, o Excel usa ponto e vírgula para separar argumentos de uma função.</p><p>Exemplo:</p><div class="formula-box">=SOMA(A1;A2)</div><p>Em algumas configurações em inglês, pode aparecer vírgula.</p><p>Exemplo:</p><div class="formula-box">=SUM(A1,A2)</div><p>O aluno deve observar o padrão usado pela sua versão do Excel Online. Se uma função não funcionar, um dos motivos pode ser o separador incorreto.</p>
+    </section>
+
+    <section class="page" id="cap30">
+      <span class="chapter-label">Ficha 30</span>
+      <h2>30. Gráficos</h2>
+      <p class="lead">Gráficos transformam números em visualização. Eles ajudam a perceber comparações, tendências, crescimentos, quedas e proporções.</p><div class="figure">
+          <div class="fig-title">Figura — Dados transformados em gráfico</div>
+          <div class="fig-body">
+            <svg viewBox="0 0 760 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tabela de valores convertida em gráfico de colunas">
+              <rect width="760" height="240" rx="20" fill="#f3faf6"/>
+              <rect x="50" y="44" width="260" height="150" rx="16" fill="#fff" stroke="#d8e4dc"/>
+              <text x="180" y="72" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#0b5a30">Tabela</text>
+              <g font-family="Arial" font-size="12" fill="#16231b">
+                <text x="82" y="105">Alimentação</text><text x="240" y="105">450</text>
+                <text x="82" y="133">Transporte</text><text x="240" y="133">180</text>
+                <text x="82" y="161">Estudo</text><text x="240" y="161">260</text>
+              </g>
+              <path d="M322 120h90" stroke="#107C41" stroke-width="4" stroke-linecap="round"/>
+              <path d="M402 110l18 10-18 10" fill="none" stroke="#107C41" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="448" y="44" width="260" height="150" rx="16" fill="#fff" stroke="#d8e4dc"/>
+              <text x="578" y="72" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#0b5a30">Gráfico</text>
+              <rect x="500" y="105" width="34" height="60" rx="6" fill="#107C41"/>
+              <rect x="566" y="134" width="34" height="31" rx="6" fill="#86c7a3"/>
+              <rect x="632" y="122" width="34" height="43" rx="6" fill="#38a169"/>
+              <line x1="480" y1="166" x2="684" y2="166" stroke="#d8e4dc" stroke-width="2"/>
+            </svg>
+          </div>
+          <p class="caption">Gráficos ajudam a comparar valores e perceber padrões que podem passar despercebidos em uma tabela apenas numérica.</p>
+        </div><p>Um gráfico pode mostrar, por exemplo, as despesas por categoria, as vendas por mês, a evolução de notas, a frequência de alunos ou a quantidade de produtos em estoque.</p><p>Para criar um bom gráfico, a tabela precisa estar organizada. Os cabeçalhos devem estar claros, os valores devem estar no formato correto e os dados não devem estar misturados.</p>
+    </section>
+
+    <section class="page" id="cap31">
+      <span class="chapter-label">Ficha 31</span>
+      <h2>31. Tipos comuns de gráficos</h2>
+      <p class="lead">O gráfico de colunas é útil para comparar valores entre categorias. Exemplo: despesas por categoria.</p><p>O gráfico de linhas é útil para mostrar evolução ao longo do tempo. Exemplo: vendas mês a mês.</p><p>O gráfico de pizza pode mostrar participação proporcional. Exemplo: percentual de gastos por categoria.</p><p>O gráfico de barras é útil para comparar categorias quando os nomes são longos.</p><p>O aluno deve escolher o gráfico de acordo com o tipo de informação que deseja comunicar.</p>
+    </section>
+
+    <section class="page" id="cap32">
+      <span class="chapter-label">Ficha 32</span>
+      <h2>32. Interpretação de gráficos</h2>
+      <p class="lead">Criar um gráfico não basta. O aluno precisa interpretar o que ele mostra.</p><p>Algumas perguntas ajudam na análise:</p><p>Qual categoria tem o maior valor?</p><p>Qual categoria tem o menor valor?</p><p>Houve crescimento ou queda?</p><p>Existe algum valor fora do padrão?</p><p>O gráfico facilita a comparação?</p><p>Os dados estão completos?</p><p>A interpretação é a parte mais importante, porque transforma números em compreensão.</p>
+    </section>
+
+    <section class="page" id="cap33">
+      <span class="chapter-label">Ficha 33</span>
+      <h2>33. Compartilhamento e colaboração</h2>
+      <p class="lead">O Excel Online permite compartilhar a planilha com outras pessoas. Isso é útil para trabalhos em grupo, controle compartilhado, relatórios institucionais e colaboração em tempo real.</p><p>O usuário pode compartilhar por e-mail ou por link. Ao compartilhar, deve escolher a permissão correta.</p><p>A permissão de visualização permite apenas abrir e ler o arquivo.</p><p>A permissão de edição permite modificar a planilha.</p><p>A permissão de revisão ou comentário, quando disponível, permite colaborar sem alterar diretamente todos os dados.</p><p>Em arquivos com dados sensíveis, o compartilhamento deve ser restrito a pessoas específicas.</p>
+    </section>
+
+    <section class="page" id="cap34">
+      <span class="chapter-label">Ficha 34</span>
+      <h2>34. Cuidados ao compartilhar planilhas</h2>
+      <p class="lead">Antes de compartilhar uma planilha, o aluno deve verificar se ela contém dados pessoais, financeiros, documentos, telefones, endereços, senhas, informações internas ou qualquer conteúdo sensível.</p><p>Também deve evitar liberar edição para “qualquer pessoa com o link”. Essa configuração pode permitir alterações indevidas ou acesso por pessoas não autorizadas.</p><p>Em trabalhos finalizados, pode ser melhor compartilhar como visualização ou exportar em PDF.</p>
+    </section>
+
+    <section class="page" id="cap35">
+      <span class="chapter-label">Ficha 35</span>
+      <h2>35. Exportação e impressão</h2>
+      <p class="lead">O Excel Online permite preparar a planilha para impressão ou exportação. Antes de imprimir, o aluno deve verificar se a tabela cabe na página, se os dados não estão cortados, se os títulos aparecem corretamente e se as margens estão adequadas.</p><p>O arquivo pode ser baixado em formato Excel ou exportado em PDF, dependendo das opções disponíveis.</p><p>O PDF é indicado quando a planilha será enviada como documento final, pois preserva melhor a aparência e reduz alterações acidentais.</p>
+    </section>
+
+    <section class="page" id="cap36">
+      <span class="chapter-label">Ficha 36</span>
+      <h2>36. Inteligência artificial e Copilot</h2>
+      <p class="lead">A inteligência artificial pode ajudar o aluno a compreender fórmulas, sugerir análises, criar resumos, explicar dados, propor gráficos e revisar informações.</p><div class="figure">
+          <div class="fig-title">Figura — Uso responsável de IA na planilha</div>
+          <div class="fig-body">
+            <svg viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fluxo de uso do Copilot: pergunta, sugestão e revisão humana">
+              <rect width="760" height="230" rx="20" fill="#eef8f2"/>
+              <g font-family="Arial, sans-serif" text-anchor="middle">
+                <rect x="52" y="62" width="170" height="102" rx="16" fill="#fff" stroke="#d8e4dc"/>
+                <text x="137" y="92" font-size="16" font-weight="700" fill="#0b5a30">1. Prompt</text>
+                <text x="137" y="116" font-size="12" fill="#5d6f64">Pergunta clara</text>
+                <text x="137" y="134" font-size="12" fill="#5d6f64">sobre dados ou fórmula</text>
+                <rect x="295" y="62" width="170" height="102" rx="16" fill="#fff" stroke="#d8e4dc"/>
+                <text x="380" y="92" font-size="16" font-weight="700" fill="#0b5a30">2. Copilot</text>
+                <text x="380" y="116" font-size="12" fill="#5d6f64">Sugere análise, fórmula</text>
+                <text x="380" y="134" font-size="12" fill="#5d6f64">ou explicação</text>
+                <rect x="538" y="62" width="170" height="102" rx="16" fill="#107C41"/>
+                <text x="623" y="92" font-size="16" font-weight="700" fill="#fff">3. Revisão</text>
+                <text x="623" y="116" font-size="12" fill="#e9fff2">Aluno confere, testa</text>
+                <text x="623" y="134" font-size="12" fill="#e9fff2">e valida o resultado</text>
+                <path d="M234 113h48" stroke="#107C41" stroke-width="4" stroke-linecap="round"/><path d="M274 103l18 10-18 10" fill="none" stroke="#107C41" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M477 113h48" stroke="#107C41" stroke-width="4" stroke-linecap="round"/><path d="M517 103l18 10-18 10" fill="none" stroke="#107C41" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+            </svg>
+          </div>
+          <p class="caption">A IA pode apoiar o aprendizado, mas toda fórmula e toda interpretação devem ser conferidas pelo aluno.</p>
+        </div><p>No ecossistema Microsoft, esses recursos podem aparecer associados ao Copilot, conforme a conta, plano, idioma e disponibilidade.</p><p>O Copilot pode ser útil para explicar uma fórmula, identificar tendências em uma tabela, sugerir uma forma de organizar dados ou ajudar a interpretar resultados. Porém, o aluno não deve aceitar tudo automaticamente. A resposta da IA precisa ser conferida.</p>
+    </section>
+
+    <section class="page" id="cap37">
+      <span class="chapter-label">Ficha 37</span>
+      <h2>37. Como pedir ajuda à IA</h2>
+      <p class="lead">Para obter boas respostas, o aluno deve escrever comandos claros. Esses comandos são chamados de prompts.</p><p>Um prompt fraco seria:</p><p>“Analise isso.”</p><p>Um prompt melhor seria:</p><p>“Analise esta tabela de despesas mensais e indique quais categorias tiveram maior gasto, quais tiveram menor gasto e quais informações merecem atenção.”</p><p>Outro exemplo:</p><p>“Explique a fórmula =SOMA(B2:B10) em linguagem simples para um aluno iniciante.”</p><p>Outro exemplo:</p><p>“Crie uma fórmula para calcular o total de cada produto, considerando que a quantidade está na coluna B e o preço está na coluna C.”</p><p>Quanto mais contexto o aluno fornece, melhor tende a ser a resposta.</p>
+    </section>
+
+    <section class="page" id="cap38">
+      <span class="chapter-label">Ficha 38</span>
+      <h2>38. Cuidados com IA em planilhas</h2>
+      <p class="lead">A IA não substitui o raciocínio do aluno. Ela pode ajudar, mas pode interpretar dados de forma incorreta, sugerir fórmulas inadequadas ou gerar conclusões imprecisas.</p><p>O aluno não deve inserir dados sensíveis em prompts de IA sem orientação adequada. Isso inclui CPF, senhas, dados bancários, informações médicas, documentos pessoais, dados de alunos, informações financeiras sigilosas ou registros internos.</p><p>Toda sugestão de fórmula deve ser testada. Toda análise deve ser conferida. Todo gráfico sugerido deve ser avaliado.</p><p>A IA deve ser usada como apoio ao aprendizado, não como substituição da compreensão.</p>
+    </section>
+
+    <section class="page" id="cap39">
+      <span class="chapter-label">Ficha 39</span>
+      <h2>39. Roteiro de aprendizagem prática</h2>
+      <p class="lead">O aluno pode seguir esta sequência:</p><p>Primeiro, acessar o Excel Online com conta Microsoft.</p><p>Depois, criar uma nova pasta de trabalho.</p><p>Em seguida, renomear o arquivo com nome claro.</p><p>Depois, digitar uma tabela simples com cabeçalhos.</p><p>Na sequência, formatar cabeçalhos e valores.</p><p>Depois, aplicar uma fórmula de soma, subtração, multiplicação ou divisão.</p><p>Em seguida, usar funções como SOMA, MÉDIA, MÍNIMO e MÁXIMO.</p><p>Depois, classificar e filtrar dados.</p><p>Na sequência, criar um gráfico simples.</p><p>Depois, compartilhar a planilha com permissão adequada.</p><p>Por fim, pedir ajuda à IA para explicar uma fórmula ou analisar uma tabela, sempre revisando o resultado.</p>
+    </section>
+
+    <section class="page" id="cap40">
+      <span class="chapter-label">Ficha 40</span>
+      <h2>40. Exercício prático 1 — Criar uma planilha simples</h2>
+      <div class="exercise"><div class="steps"><div class="step"><p>Crie uma nova pasta de trabalho no Excel Online.</p></div><div class="step"><p>Renomeie o arquivo como “Minha Primeira Planilha”.</p></div><div class="step"><p>Na linha 1, digite os cabeçalhos: Produto, Quantidade, Preço, Total.</p></div><div class="step"><p>Preencha três produtos diferentes.</p></div><div class="step"><p>Na coluna Total, use uma fórmula para multiplicar quantidade por preço.</p></div><div class="step"><p>Aplique negrito nos cabeçalhos.</p></div><div class="step"><p>Formate os preços como moeda.</p></div></div></div>
+    </section>
+
+    <section class="page" id="cap41">
+      <span class="chapter-label">Ficha 41</span>
+      <h2>41. Exercício prático 2 — Controle de gastos</h2>
+      <div class="exercise"><div class="steps"><div class="step"><p>Crie uma planilha chamada “Controle de Gastos”.</p></div><div class="step"><p>Use os cabeçalhos: Data, Descrição, Categoria, Tipo, Valor.</p></div><div class="step"><p>Preencha pelo menos cinco despesas e duas receitas.</p></div><div class="step"><p>Use categorias como Alimentação, Transporte, Casa, Saúde e Lazer.</p></div><div class="step"><p>Calcule o total das despesas usando SOMA.</p></div><div class="step"><p>Calcule o total das receitas usando SOMA.</p></div><div class="step"><p>Compare receitas e despesas.</p></div></div></div>
+    </section>
+
+    <section class="page" id="cap42">
+      <span class="chapter-label">Ficha 42</span>
+      <h2>42. Exercício prático 3 — Lista de presença</h2>
+      <div class="exercise"><div class="steps"><div class="step"><p>Crie uma planilha chamada “Lista de Presença”.</p></div><div class="step"><p>Use os cabeçalhos: Nome, Aula 1, Aula 2, Aula 3, Total de Presenças.</p></div><div class="step"><p>Cadastre cinco alunos.</p></div><div class="step"><p>Marque presença com 1 e ausência com 0.</p></div><div class="step"><p>Use SOMA para calcular o total de presenças de cada aluno.</p></div><div class="step"><p>Formate o cabeçalho.</p></div><div class="step"><p>Aplique bordas na tabela.</p></div></div></div>
+    </section>
+
+    <section class="page" id="cap43">
+      <span class="chapter-label">Ficha 43</span>
+      <h2>43. Exercício prático 4 — Classificar e filtrar</h2>
+      <div class="exercise"><div class="steps"><div class="step"><p>Crie uma tabela com produtos, categorias, preços e status.</p></div><div class="step"><p>Cadastre pelo menos dez produtos.</p></div><div class="step"><p>Classifique os produtos em ordem alfabética.</p></div><div class="step"><p>Filtre apenas uma categoria.</p></div><div class="step"><p>Filtre apenas produtos com status “Pendente”.</p></div><div class="step"><p>Remova o filtro e confira se todos os dados voltaram a aparecer.</p></div></div></div>
+    </section>
+
+    <section class="page" id="cap44">
+      <span class="chapter-label">Ficha 44</span>
+      <h2>44. Exercício prático 5 — Criar gráfico</h2>
+      <div class="exercise"><div class="steps"><div class="step"><p>Crie uma tabela com categorias de despesas e valores.</p></div><div class="step"><p>Exemplo: Casa, Alimentação, Transporte, Lazer e Saúde.</p></div><div class="step"><p>Selecione a tabela.</p></div><div class="step"><p>Insira um gráfico de colunas.</p></div><div class="step"><p>Observe qual categoria tem maior valor.</p></div><div class="step"><p>Escreva uma frase interpretando o gráfico.</p></div></div></div>
+    </section>
+
+    <section class="page" id="cap45">
+      <span class="chapter-label">Ficha 45</span>
+      <h2>45. Exercício prático 6 — Uso responsável de IA</h2>
+      <div class="exercise"><div class="steps"><div class="step"><p>Crie uma tabela de gastos mensais.</p></div><div class="step"><p>Peça à IA para explicar quais categorias têm maior peso.</p></div><div class="step"><p>Peça à IA para sugerir um gráfico adequado.</p></div><div class="step"><p>Peça à IA para explicar uma fórmula usada na planilha.</p></div><div class="step"><p>Compare a resposta da IA com os dados reais.</p></div><div class="step"><p>Corrija qualquer conclusão incorreta.</p></div></div></div>
+    </section>
+
+    <section class="page" id="cap46">
+      <span class="chapter-label">Ficha 46</span>
+      <h2>46. Checklist de aprendizagem</h2>
+      <p class="lead">O aluno deve ser capaz de:</p><div class="checklist"><div class="check">Abrir o Excel Online.</div><div class="check">Criar uma nova pasta de trabalho.</div><div class="check">Renomear o arquivo corretamente.</div><div class="check">Identificar linha, coluna, célula e intervalo.</div><div class="check">Digitar textos, números, datas e valores.</div><div class="check">Formatar cabeçalhos e células.</div><div class="check">Usar bordas, cores e formato moeda.</div><div class="check">Criar uma tabela organizada.</div><div class="check">Classificar dados.</div><div class="check">Aplicar filtros.</div><div class="check">Criar fórmulas simples.</div><div class="check">Usar funções como SOMA, MÉDIA, MÍNIMO e MÁXIMO.</div><div class="check">Identificar erros comuns em fórmulas.</div><div class="check">Criar gráficos simples.</div><div class="check">Compartilhar a planilha com permissão adequada.</div><div class="check">Exportar ou preparar para impressão.</div><div class="check">Usar IA como apoio, sem confiar cegamente.</div></div>
+    </section>
+
+    <section class="page" id="cap47">
+      <span class="chapter-label">Ficha 47</span>
+      <h2>47. Questões para revisão</h2>
+      <div class="steps"><div class="step"><p>1. O que é o Microsoft Excel Online?</p></div><div class="step"><p>2. Qual é a diferença entre Excel Online e Excel instalado?</p></div><div class="step"><p>3. O que é uma pasta de trabalho?</p></div><div class="step"><p>4. O que é uma planilha?</p></div><div class="step"><p>5. O que é uma célula?</p></div><div class="step"><p>6. Como identificar o endereço de uma célula?</p></div><div class="step"><p>7. O que significa B3?</p></div><div class="step"><p>8. Para que serve a barra de fórmulas?</p></div><div class="step"><p>9. Por que é importante renomear o arquivo?</p></div><div class="step"><p>10. O que é salvamento automático?</p></div><div class="step"><p>11. Qual é a diferença entre texto, número, data e fórmula?</p></div><div class="step"><p>12. Por que toda fórmula começa com o sinal de igual?</p></div><div class="step"><p>13. Para que serve a função SOMA?</p></div><div class="step"><p>14. Para que serve a função MÉDIA?</p></div><div class="step"><p>15. O que significa classificar dados?</p></div><div class="step"><p>16. O que significa filtrar dados?</p></div><div class="step"><p>17. Para que servem os gráficos?</p></div><div class="step"><p>18. Quais cuidados são necessários ao compartilhar uma planilha?</p></div><div class="step"><p>19. Como a IA pode ajudar no Excel?</p></div><div class="step"><p>20. Por que as respostas da IA precisam ser revisadas?</p></div></div>
+    </section>
+
+    <section class="page" id="cap48">
+      <span class="chapter-label">Ficha 48</span>
+      <h2>48. Resumo para memorização</h2>
+      <div class="checklist"><div class="check">Excel Online é a versão do Excel usada no navegador.</div><div class="check">Ele salva arquivos na nuvem, geralmente no OneDrive.</div><div class="check">Uma pasta de trabalho é o arquivo do Excel.</div><div class="check">Uma planilha é uma aba dentro da pasta de trabalho.</div><div class="check">Uma célula é o espaço onde o usuário digita informações.</div><div class="check">Colunas são identificadas por letras.</div><div class="check">Linhas são identificadas por números.</div><div class="check">O endereço da célula combina letra e número.</div><div class="check">Toda fórmula começa com sinal de igual.</div><div class="check">SOMA, MÉDIA, MÍNIMO e MÁXIMO são funções básicas.</div><div class="check">Filtros mostram apenas parte dos dados.</div><div class="check">Classificação coloca os dados em ordem.</div><div class="check">Gráficos ajudam a visualizar informações.</div><div class="check">Compartilhamento exige cuidado com permissões.</div><div class="check">IA e Copilot podem ajudar, mas precisam de revisão humana.</div></div>
+    </section>
+
+    <section class="page" id="cap49">
+      <span class="chapter-label">Ficha 49</span>
+      <h2>49. Glossário básico</h2>
+      <div class="two-col"><div class="card"><h4>Excel Online</h4><p>versão do Microsoft Excel usada no navegador.</p></div><div class="card"><h4>Excel para a Web</h4><p>outro nome usado para Excel Online.</p></div><div class="card"><h4>Pasta de trabalho</h4><p>arquivo completo do Excel.</p></div><div class="card"><h4>Planilha</h4><p>aba dentro de uma pasta de trabalho.</p></div><div class="card"><h4>Linha</h4><p>sequência horizontal de células, identificada por número.</p></div><div class="card"><h4>Coluna</h4><p>sequência vertical de células, identificada por letra.</p></div><div class="card"><h4>Célula</h4><p>espaço onde o usuário digita texto, número, data ou fórmula.</p></div><div class="card"><h4>Intervalo</h4><p>conjunto de células selecionadas.</p></div><div class="card"><h4>Cabeçalho</h4><p>primeira linha de uma tabela, usada para identificar as colunas.</p></div><div class="card"><h4>Fórmula</h4><p>instrução de cálculo criada pelo usuário.</p></div><div class="card"><h4>Função</h4><p>fórmula pronta do Excel.</p></div><div class="card"><h4>SOMA</h4><p>função usada para somar valores.</p></div><div class="card"><h4>MÉDIA</h4><p>função usada para calcular a média.</p></div><div class="card"><h4>Filtro</h4><p>recurso que mostra apenas dados que atendem a determinado critério.</p></div><div class="card"><h4>Classificação</h4><p>organização dos dados em ordem.</p></div><div class="card"><h4>Gráfico</h4><p>representação visual dos dados.</p></div><div class="card"><h4>OneDrive</h4><p>serviço de armazenamento em nuvem da Microsoft.</p></div><div class="card"><h4>Copilot</h4><p>recurso de inteligência artificial da Microsoft, disponível conforme conta e plano.</p></div><div class="card"><h4>Prompt</h4><p>comando escrito para solicitar algo à IA.</p></div><div class="card"><h4>Permissão</h4><p>nível de acesso dado a outra pessoa em um arquivo compartilhado.</p></div><div class="card"><h4>PDF</h4><p>formato usado para preservar a aparência de um documento ou planilha finalizada.</p></div></div>
+    </section>
+
+    <section class="page" id="cap50">
+      <span class="chapter-label">Ficha 50</span>
+      <h2>50. Conclusão da ficha</h2>
+      <p class="lead">O Microsoft Excel Online é uma ferramenta essencial para quem deseja organizar informações, realizar cálculos e interpretar dados de forma prática. Para o aluno iniciante, o mais importante é compreender a estrutura da planilha: pasta de trabalho, planilha, linha, coluna, célula e intervalo.</p><p>Depois dessa base, o aluno pode avançar para digitação, formatação, organização de tabelas, fórmulas, funções, filtros e gráficos. Esses recursos permitem transformar dados simples em informações úteis para estudo, trabalho, controle financeiro, administração de atividades e tomada de decisão.</p><p>O uso de inteligência artificial, como o Copilot, amplia as possibilidades de aprendizado, mas exige responsabilidade. A IA pode explicar fórmulas, sugerir análises e ajudar na interpretação dos dados, mas o aluno deve revisar, testar e compreender tudo que for produzido.</p><p>Aprender Excel Online não é apenas aprender uma ferramenta. É desenvolver raciocínio lógico, organização de dados, leitura crítica de informações e autonomia digital.</p>
+    </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const stage = document.getElementById("viewerStage");
+      const book = document.getElementById("bookPages");
+      const pages = Array.from(book.querySelectorAll(".page, .cover"));
+      const sidebarLinks = Array.from(document.querySelectorAll("#sidebarNav a"));
+      const topLinks = Array.from(document.querySelectorAll(".topbar .nav a"));
+      const prevBtn = document.getElementById("prevPage");
+      const nextBtn = document.getElementById("nextPage");
+      const status = document.getElementById("viewerStatus");
+      const scalePreference = document.getElementById("scalePreference");
+      const scaleNote = document.getElementById("scaleNote");
+
+      if (!stage || pages.length === 0 || !prevBtn || !nextBtn || !status) {
+        return;
+      }
+
+      function prepareContentWrappers() {
+        pages.forEach((page) => {
+          if (page.querySelector(":scope > .page-content")) {
+            return;
+          }
+          const wrapper = document.createElement("div");
+          wrapper.className = "page-content";
+          while (page.firstChild) {
+            wrapper.appendChild(page.firstChild);
+          }
+          page.appendChild(wrapper);
+        });
+      }
+
+      function isDesktopViewer() {
+        return window.matchMedia("(min-width: 1081px)").matches;
+      }
+
+      let activeIndex = 0;
+
+      function indexFromHash() {
+        const hash = window.location.hash.replace("#", "");
+        if (!hash) {
+          return 0;
+        }
+        const found = pages.findIndex((page) => page.id === hash);
+        return found >= 0 ? found : 0;
+      }
+
+      function fitActivePage() {
+        if (!isDesktopViewer()) {
+          stage.classList.remove("is-scaled");
+          stage.classList.remove("mode-reading", "mode-fit");
+          return;
+        }
+
+        const page = pages[activeIndex];
+        const content = page.querySelector(":scope > .page-content");
+        if (!content) {
+          return;
+        }
+
+        const preference = scalePreference ? scalePreference.value : "reading";
+        stage.classList.toggle("mode-reading", preference === "reading");
+        stage.classList.toggle("mode-fit", preference === "fit");
+        content.classList.toggle("tight-mode", preference === "fit");
+
+        if (preference === "reading") {
+          content.style.transform = "none";
+          content.style.width = "auto";
+          stage.classList.remove("is-scaled");
+          if (scaleNote) {
+            scaleNote.textContent = "Modo leitura · rolagem ativa";
+          }
+          return;
+        }
+
+        content.style.transform = "scale(1)";
+        content.style.width = "100%";
+
+        const paddingAllowance = 4;
+        const availableW = page.clientWidth - paddingAllowance;
+        const availableH = page.clientHeight - paddingAllowance;
+        const naturalW = content.scrollWidth;
+        const naturalH = content.scrollHeight;
+
+        if (!naturalW || !naturalH) {
+          return;
+        }
+
+        const ratioW = availableW / naturalW;
+        const ratioH = availableH / naturalH;
+        let scale = Math.min(1, ratioW, ratioH);
+        const minScale = 0.56;
+        scale = Math.max(minScale, scale);
+
+        const forcedFit = Math.min(1, ratioW, ratioH);
+        if (scale > forcedFit) {
+          scale = forcedFit;
+        }
+
+        content.style.transform = "scale(" + scale + ")";
+        content.style.width = (100 / scale) + "%";
+        stage.classList.toggle("is-scaled", scale < 0.999);
+
+        if (scaleNote) {
+          const percent = Math.round(scale * 100);
+          scaleNote.textContent = "Modo reduzido · " + percent + "%";
+        }
+      }
+
+      function syncActiveLinks() {
+        const id = pages[activeIndex].id;
+        sidebarLinks.forEach((link) => {
+          link.classList.toggle("active", link.getAttribute("href") === "#" + id);
+        });
+      }
+
+      function updateStatus() {
+        status.textContent = "Tópico " + (activeIndex + 1) + " de " + pages.length;
+        prevBtn.disabled = activeIndex === 0;
+        nextBtn.disabled = activeIndex === pages.length - 1;
+      }
+
+      function showPage(index, updateHash) {
+        activeIndex = Math.max(0, Math.min(pages.length - 1, index));
+
+        pages.forEach((page, i) => {
+          page.classList.toggle("active", i === activeIndex);
+          page.setAttribute("aria-hidden", i === activeIndex ? "false" : "true");
+        });
+
+        updateStatus();
+        syncActiveLinks();
+        fitActivePage();
+
+        if (updateHash) {
+          history.replaceState(null, "", "#" + pages[activeIndex].id);
+        }
+      }
+
+      function handleLinkClick(event) {
+        const href = event.currentTarget.getAttribute("href") || "";
+        if (!href.startsWith("#")) {
+          return;
+        }
+        const id = href.slice(1);
+        const idx = pages.findIndex((page) => page.id === id);
+        if (idx < 0) {
+          return;
+        }
+
+        if (isDesktopViewer()) {
+          event.preventDefault();
+          showPage(idx, true);
+        }
+      }
+
+      sidebarLinks.forEach((link) => link.addEventListener("click", handleLinkClick));
+      topLinks.forEach((link) => link.addEventListener("click", handleLinkClick));
+      book.addEventListener("click", (event) => {
+        const target = event.target.closest('a[href^="#"]');
+        if (!target) {
+          return;
+        }
+
+        const href = target.getAttribute("href") || "";
+        const id = href.slice(1);
+        const idx = pages.findIndex((page) => page.id === id);
+        if (idx < 0) {
+          return;
+        }
+
+        if (isDesktopViewer()) {
+          event.preventDefault();
+          showPage(idx, true);
+        }
+      });
+
+      prevBtn.addEventListener("click", () => showPage(activeIndex - 1, true));
+      nextBtn.addEventListener("click", () => showPage(activeIndex + 1, true));
+
+      if (scalePreference) {
+        scalePreference.addEventListener("change", () => {
+          showPage(activeIndex, false);
+        });
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (!isDesktopViewer()) {
+          return;
+        }
+        if (event.key === "ArrowRight") {
+          showPage(activeIndex + 1, true);
+        }
+        if (event.key === "ArrowLeft") {
+          showPage(activeIndex - 1, true);
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (!isDesktopViewer()) {
+          stage.classList.remove("is-scaled");
+          stage.classList.remove("mode-reading", "mode-fit");
+          pages.forEach((page) => {
+            const content = page.querySelector(":scope > .page-content");
+            if (content) {
+              content.style.transform = "none";
+              content.style.width = "auto";
+              content.classList.remove("tight-mode");
+            }
+            page.classList.add("active");
+            page.setAttribute("aria-hidden", "false");
+          });
+          return;
+        }
+
+        showPage(activeIndex, false);
+      });
+
+      window.addEventListener("hashchange", () => {
+        const idx = indexFromHash();
+        if (isDesktopViewer()) {
+          showPage(idx, false);
+        } else {
+          activeIndex = idx;
+          updateStatus();
+          syncActiveLinks();
+        }
+      });
+
+      prepareContentWrappers();
+      const initial = indexFromHash();
+      if (isDesktopViewer()) {
+        showPage(initial, false);
+      } else {
+        activeIndex = initial;
+        updateStatus();
+        syncActiveLinks();
+      }
+    })();
+  </script>
+</body>
+</html>
